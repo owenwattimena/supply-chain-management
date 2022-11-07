@@ -69,11 +69,11 @@
                                 <div class="form-group">
                                     <label>Role</label>
                                     <select class="form-control" name="role">
-                                        <option value="developer">Developer</option>
-                                        <option value="superadmin">Superadmin</option>
+                                        {{-- <option value="developer">Developer</option> --}}
+                                        {{-- <option value="superadmin">Superadmin</option> --}}
                                         <option value="admin">Admin</option>
                                         <option value="supplier">Supplier</option>
-                                        <option value="manager">Manager</option>
+                                        {{-- <option value="manager">Manager</option> --}}
                                     </select>
                                 </div>
                             </div>
@@ -154,11 +154,11 @@
                                         <div class="form-group">
                                             <label>Role</label>
                                             <select class="form-control" name="role">
-                                                <option {{ $item->role == 'developer' ? 'selected' : '' }} value="developer">Developer</option>
-                                                <option {{ $item->role == 'superadmin' ? 'selected' : '' }} value="superadmin">Superadmin</option>
+                                                {{-- <option {{ $item->role == 'developer' ? 'selected' : '' }} value="developer">Developer</option> --}}
+                                                {{-- <option {{ $item->role == 'superadmin' ? 'selected' : '' }} value="superadmin">Superadmin</option> --}}
                                                 <option {{ $item->role == 'admin' ? 'selected' : '' }} value="admin">Admin</option>
                                                 <option {{ $item->role == 'supplier' ? 'selected' : '' }} value="supplier">Supplier</option>
-                                                <option {{ $item->role == 'manager' ? 'selected' : '' }} value="manager">Manager</option>
+                                                {{-- <option {{ $item->role == 'manager' ? 'selected' : '' }} value="manager">Manager</option> --}}
                                             </select>
                                         </div>
                                     </div>
