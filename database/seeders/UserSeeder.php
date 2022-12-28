@@ -10,7 +10,7 @@ class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
+     *  3_$%*t(0],&j
      * @return void
      */
     public function run()
@@ -18,7 +18,6 @@ class UserSeeder extends Seeder
         $user = new User;
         $user->name = "Owen Wattimena";
         $user->username = "wentoxwtt";
-        $user->email = "wentoxwtt@gmail.com";
         $user->password = Hash::make('password');
         $user->role = "developer";
         $user->save();

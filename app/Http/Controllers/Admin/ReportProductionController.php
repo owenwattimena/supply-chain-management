@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use DateTime;
+use App\Models\Produksi;
 use Illuminate\Http\Request;
 use App\Models\DetailPesanan;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -29,13 +30,15 @@ class ReportProductionController extends Controller
         $from = $request->query('from') ? (new DateTime("@$f_epoch"))->format('Y-m-d H:i:s') : date('Y-m-d', strtotime('today - 29 days')) . ' 00:00:00';
         $to = $request->query('to') ? (new DateTime("@$t_epoch"))->format('Y-m-d H:i:s') : date('Y-m-d') . ' 23:59:59';
         
-        $data['stock'] = DetailPesanan::with(['rawMaterial', 'order' => function ($query) use ($from, $to) {
-            return $query->where('status', 'final')->whereBetween('created_at', [$from, $to]);
-        }])->get()->where('order', '!=', null)->groupBy('rawMaterial.id');
+        // $data['stock'] = DetailPesanan::with(['rawMaterial', 'order' => function ($query) use ($from, $to) {
+        //     return $query->where('status', 'final')->whereBetween('created_at', [$from, $to]);
+        // }])->get()->where('order', '!=', null)->groupBy('rawMaterial.id');
+
+        $data['produksi'] = Produksi::with('produk')->where('status', 'final')->whereBetween('tanggal_mulai', [$from, $to])->get();
 
         $data['from'] = $this->convertPHPToMomentFormat($from);
         $data['to'] = $this->convertPHPToMomentFormat($to);
-
+        // dd($data);
         return view('admin.laporan.produksi', $data);
     }
 
@@ -46,10 +49,11 @@ class ReportProductionController extends Controller
         $from = $request->query('from') ? (new DateTime("@$f_epoch"))->format('Y-m-d H:i:s') : date('Y-m-d', strtotime('today - 29 days')) . ' 00:00:00';
         $to = $request->query('to') ? (new DateTime("@$t_epoch"))->format('Y-m-d H:i:s') : date('Y-m-d') . ' 23:59:59';
         
-        $data['stock'] = DetailPesanan::with(['rawMaterial', 'order' => function ($query) use ($from, $to) {
-            return $query->where('status', 'final')->whereBetween('created_at', [$from, $to]);
-        }])->get()->where('order', '!=', null)->groupBy('rawMaterial.id');
-
+        // $data['stock'] = DetailPesanan::with(['rawMaterial', 'order' => function ($query) use ($from, $to) {
+        //     return $query->where('status', 'final')->whereBetween('created_at', [$from, $to]);
+        // }])->get()->where('order', '!=', null)->groupBy('rawMaterial.id');
+        $data['produksi'] = Produksi::with('produk')->where('status', 'final')->whereBetween('tanggal_mulai', [$from, $to])->get();
+        
         $data['from'] = $this->convertPHPToMomentFormat($from);
         $data['to'] = $this->convertPHPToMomentFormat($to);
         $pdf = Pdf::loadView('admin.laporan.unduh', $data);

@@ -26,7 +26,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $data['users'] = UserService::get()->where('id', '!=', auth()->user()->id);
+        $data['users'] = UserService::get()->where('id', '!=', auth()->user()->id)->where('role', '!=', 'developer');
         return view('admin.users.index', $data);
     }
 
@@ -36,7 +36,7 @@ class UserController extends Controller
             "name"  => "required",
             "username"  => "required|unique:users,username",
             "password"  => "required",
-            "email"     => "email",
+            // "email"     => "email",
             "role"      => "required"
         ]);
 
@@ -54,7 +54,7 @@ class UserController extends Controller
         $request->validate([
             "name"  => "required",
             "username"  => "required|unique:users,username,{$id}",
-            "email"     => "email",
+            // "email"     => "email",
             "role"      => "required"
         ]);
 

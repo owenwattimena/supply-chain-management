@@ -86,6 +86,10 @@
     </div>
     <table class="info">
         <tr>
+            <td style="widtd:50%">Tanggal Pesanan</td>
+            <td> : {{ $pesanan->created_at }}</td>
+        </tr>
+        <tr>
             <td style="widtd:50%">Nomor Pesanan</td>
             <td> : {{ $pesanan->nomor_pesanan }}</td>
         </tr>
@@ -93,6 +97,17 @@
             <td>Nama Supplier</td>
             <td> : {{ $pesanan->supplier->name }}</td>
         </tr>
+        @if ($pesanan->status == 'final')
+
+        <tr>
+            <td>Nomor Kendaraan</td>
+            <td> : {{ $pesanan->penerimaanPesanan->nomor_kendaraan ?? '-' }}</td>
+        </tr>
+        <tr>
+            <td>Nama Pengemudi</td>
+            <td> : {{ $pesanan->penerimaanPesanan->nama_pengemudi ?? '-' }}</td>
+        </tr>
+        @endif
         <tr>
             <td>Status</td>
             <td> : <span class="badge">{{ $pesanan->status }}</span></td>

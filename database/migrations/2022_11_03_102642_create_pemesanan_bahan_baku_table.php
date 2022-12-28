@@ -17,9 +17,10 @@ class CreatePemesananBahanBakuTable extends Migration
             $table->id();
             $table->string("nomor_pesanan");
             $table->unsignedBigInteger("id_supplier");
-            $table->enum('status', ['draft', 'pending', 'proses', 'final', 'batal'])->default('draft');
+            $table->enum('status', ['draft', 'menunggu', 'pending', 'proses', 'final', 'batal'])->default('draft');
             $table->unsignedBigInteger("dibuat_oleh");
             $table->unsignedBigInteger("dibatalkan_oleh")->nullable();
+            $table->unsignedBigInteger('id_transaksi_supplier')->nullable();
             $table->timestamps();
 
             $table->foreign('id_supplier')->references('id')->on('users');

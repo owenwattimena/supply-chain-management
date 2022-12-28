@@ -42,4 +42,14 @@ class PemesananBahanBaku extends Model
     {
         return $this->hasOne(User::class, 'id', 'dibatalkan_oleh');
     }
+
+    /**
+     * Get the transaksiSupplier associated with the PemesananBahanBaku
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function penerimaanPesanan(): HasOne
+    {
+        return $this->hasOne(PenerimaanPesanan::class, 'id_pemesanan_bahan_baku', 'id');
+    }
 }

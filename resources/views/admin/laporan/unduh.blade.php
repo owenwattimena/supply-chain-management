@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pemesanan Bahan Baku</title>
+    <title>Laporan Produksi</title>
     <style>
         .header {
             position: relative;
@@ -91,33 +91,35 @@
     <table class="info">
         <tr>
             <td style="widtd:50%">Tanggal</td>
-            <td> : {{ $from }} s/d {{ $to }}</td>
+            <td> : {{ date_format(date_create($from), 'Y-m-d') }} s/d {{ date_format(date_create($to), 'Y-m-d') }}</td>
     </tr>
     </table>
     <table id="example1" class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>#</th>
-                <th>Nomor Bahan Baku</th>
-                <th>Nama Bahan Baku</th>
-                <th>Spesefikasi</th>
-                <th>Masuk</th>
-                <th>Keluar</th>
+                <th>Tanggal Produksi</th>
+                <th>Jam Mulai</th>
+                <th>Jam Selesai</th>
+                <th>Produk</th>
+                <th>Spesifikasi</th>
+                <th>Jumlah Produksi</th>
+                <th>Satuan</th>
                 {{-- <th>Total</th> --}}
             </tr>
         </thead>
         <tbody>
-            @php
-            $no = 0;
-            @endphp
-            @foreach ($stock as $key => $item)
+            <?php $no = 0; ?>
+            @foreach ($produksi as $key => $item)
             <tr>
                 <td>{{ ++$no }}</td>
-                <td>{{ $item->first()->rawMaterial->nomor_bahan_baku }}</td>
-                <td>{{ $item->first()->rawMaterial->nama_bahan_baku }}</td>
-                <td>{{ $item->first()->rawMaterial->spesifikasi }}</td>
-                <td class="text-right">{{ $item->sum('kuantitas') }}</td>
-                <td class="text-right">{{ 0 }}</td>
+                <td>{{ $item->tanggal_mulai }}</td>
+                <td>{{ $item->jam_mulai }}</td>
+                <td>{{ $item->jam_selesai }}</td>
+                <td>{{ $item->produk->nama }}</td>
+                <td>{{ $item->produk->keterangan ?? '-' }}</td>
+                <td>{{ $item->jumlah }}</td>
+                <td>{{ $item->produk->satuan->satuan }}</td>
                 {{-- <td>{{ $item->sum('kuantitas') }}</td> --}}
             </tr>
             @endforeach

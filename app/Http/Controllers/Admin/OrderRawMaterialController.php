@@ -46,7 +46,9 @@ class OrderRawMaterialController extends Controller
 
     public function show($id)
     {
-        $data['pesanan'] = PemesananBahanBaku::with(['cancelBy', 'material' => function ($query) {
+        $data['pesanan'] = PemesananBahanBaku::with(['cancelBy', 'penerimaanPesanan' => function($query){
+            return $query->with('fotoPenerimaan')->get();
+        }, 'material' => function ($query) {
             return $query->with([
                 'harga',
                 'rawMaterial' => function ($query) {
@@ -58,15 +60,17 @@ class OrderRawMaterialController extends Controller
                 }
             ])->get();
         }])->findOrFail($id);
-        // dd($data);
+
         if (auth()->user()->role == 'supplier') {
             if (auth()->user()->id != $data['pesanan']->id_supplier) return abort(404);
         }
-
+        
         if ($data['pesanan']->status == 'draft') {
-            $data['bahanBaku'] = BahanBaku::where('di_buat_oleh', $data['pesanan']->id_supplier)->get();
-            if (auth()->user()->role == 'supplier') return redirect()->route('order-raw-material');
+
+            $data['bahanBaku'] = BahanBaku::with('stokSupplier')->where('di_buat_oleh', $data['pesanan']->id_supplier)->get();
+            if (auth()->user()->role == 'supplier' || auth()->user()->role == 'stockpile') return abort(404);
         }
+        // dd($data);
 
         return view('admin.pemesanan-bahan-baku.detail', $data);
     }
@@ -123,8 +127,8 @@ class OrderRawMaterialController extends Controller
         if (!in_array($status, config('constants.order.status')))
             return redirect()->back()->with(AlertFormatter::danger('Coba lagi!'));
 
-        $result = OrderRawMaterialService::status($id, $status);
-        if ($result) {
+        $result = OrderRawMaterialService::status($id, $status, $request);
+        if ( is_bool($result) && $result == true ) {
             switch ($status) {
                 case 'pending':
                     return redirect()->route('order-raw-material')->with(AlertFormatter::success('Pesanan berhasil di order!'));
@@ -132,13 +136,17 @@ class OrderRawMaterialController extends Controller
                 case 'proses':
                     return redirect()->route('order-raw-material')->with(AlertFormatter::success('Pesanan berhasil di proses!'));
                     break;
+                case 'batal':
+                    return redirect()->route('order-raw-material')->with(AlertFormatter::success('Pesanan berhasil di batalkan!'));
+                    break;
                 default:
                     return redirect()->route('order-raw-material')->with(AlertFormatter::success('Pesanan berhasil di order!'));
                     break;
             }
         }
-        return redirect()->back()->with(AlertFormatter::danger('Pesanan gagal di order!'));
+        return redirect()->back()->with(AlertFormatter::danger('Pesanan gagal di order.' . $result));
     }
+
 
     public function unduh($id)
     {

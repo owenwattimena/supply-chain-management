@@ -40,24 +40,28 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nomor Bahan Baku</th>
-                            <th>Nama Bahan Baku</th>
+                            <th>Tanggal Produksi</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Selesai</th>
+                            <th>Produk</th>
                             <th>Spesifikasi</th>
-                            <th>Masuk</th>
-                            <th>Keluar</th>
+                            <th>Jumlah Produksi</th>
+                            <th>Satuan</th>
                             {{-- <th>Total</th> --}}
                         </tr>
                     </thead>
                     <tbody>
                         <?php $no = 0; ?>
-                        @foreach ($stock as $key => $item)
+                        @foreach ($produksi as $key => $item)
                         <tr>
                             <td>{{ ++$no }}</td>
-                            <td>{{ $item->first()->rawMaterial->nomor_bahan_baku }}</td>
-                            <td>{{ $item->first()->rawMaterial->nama_bahan_baku }}</td>
-                            <td>{{ $item->first()->rawMaterial->spesifikasi }}</td>
-                            <td>{{ $item->sum('kuantitas') }}</td>
-                            <td>{{ 0 }}</td>
+                            <td>{{ $item->tanggal_mulai }}</td>
+                            <td>{{ $item->jam_mulai }}</td>
+                            <td>{{ $item->jam_selesai }}</td>
+                            <td>{{ $item->produk->nama }}</td>
+                            <td>{{ $item->produk->keterangan ?? '-' }}</td>
+                            <td>{{ $item->jumlah }}</td>
+                            <td>{{ $item->produk->satuan->satuan }}</td>
                             {{-- <td>{{ $item->sum('kuantitas') }}</td> --}}
                         </tr>
                         @endforeach
@@ -65,11 +69,13 @@
                     <tfoot>
                         <tr>
                             <th>#</th>
-                            <th>Nomor Bahan Baku</th>
-                            <th>Nama Bahan Baku</th>
+                            <th>Tanggal Produksi</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Selesai</th>
+                            <th>Produk</th>
                             <th>Spesifikasi</th>
-                            <th>Masuk</th>
-                            <th>Keluar</th>
+                            <th>Jumlah Produksi</th>
+                            <th>Satuan</th>
                             {{-- <th>Total</th> --}}
                         </tr>
                     </tfoot>

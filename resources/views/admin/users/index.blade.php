@@ -59,20 +59,23 @@
                                     <span class="help-block">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" value="{{ old('email', '') }}" required placeholder="Masukan email">
                                     @error('email')
                                     <span class="help-block">{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                     <label>Role</label>
                                     <select class="form-control" name="role">
                                         {{-- <option value="developer">Developer</option> --}}
                                         {{-- <option value="superadmin">Superadmin</option> --}}
                                         <option value="admin">Admin</option>
+                                        <option value="stockpile">Stockpile</option>
                                         <option value="supplier">Supplier</option>
+                                        <option value="produksi">Produksi</option>
+                                        <option value="manager">Manager</option>
                                         {{-- <option value="manager">Manager</option> --}}
                                     </select>
                                 </div>
@@ -88,9 +91,9 @@
             <table id="example1" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>Username</th>
                         <th>Nama</th>
-                        <th>Email</th>
+                        <th>Username</th>
+                        {{-- <th>Email</th> --}}
                         <th>Role</th>
                         <th></th>
                     </tr>
@@ -98,9 +101,9 @@
                 <tbody>
                     @foreach ($users as $item)
                     <tr>
-                        <td>{{ $item->username }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>{{ $item->email }}</td>
+                        <td>{{ $item->username }}</td>
+                        {{-- <td>{{ $item->email }}</td> --}}
                         <td>{{ $item->role }}</td>
                         <td>
                             <button class="btn btn-xs bg-orange btn-flat" data-toggle="modal" data-target="#modal-{{ $item->id }}">UBAH</button>
@@ -144,20 +147,23 @@
                                             <span class="help-block">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label for="email">Email</label>
                                             <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $item->email) }}" required placeholder="Masukan email">
                                             @error('email')
                                             <span class="help-block">{{ $message }}</span>
                                             @enderror
-                                        </div>
+                                        </div> --}}
                                         <div class="form-group">
                                             <label>Role</label>
                                             <select class="form-control" name="role">
                                                 {{-- <option {{ $item->role == 'developer' ? 'selected' : '' }} value="developer">Developer</option> --}}
                                                 {{-- <option {{ $item->role == 'superadmin' ? 'selected' : '' }} value="superadmin">Superadmin</option> --}}
                                                 <option {{ $item->role == 'admin' ? 'selected' : '' }} value="admin">Admin</option>
+                                                <option {{ $item->role == 'stockpile' ? 'selected' : '' }} value="stockpile">Stockpile</option>
                                                 <option {{ $item->role == 'supplier' ? 'selected' : '' }} value="supplier">Supplier</option>
+                                                <option {{ $item->role == 'produksi' ? 'selected' : '' }} value="produksi">Produksi</option>
+                                                <option {{ $item->role == 'manager' ? 'selected' : '' }} value="manager">Manager</option>
                                                 {{-- <option {{ $item->role == 'manager' ? 'selected' : '' }} value="manager">Manager</option> --}}
                                             </select>
                                         </div>
@@ -174,9 +180,9 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>Username</th>
                         <th>Nama</th>
-                        <th>Email</th>
+                        <th>Username</th>
+                        {{-- <th>Email</th> --}}
                         <th>Role</th>
                         <th></th>
                     </tr>

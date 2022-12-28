@@ -16,30 +16,57 @@
 </section>
 <section class="content">
     <div class="nav-tabs-custom">
+        <?php $menunggu_total = count($order->where('status', 'menunggu')); ?>
         <?php $pending_total = count($order->where('status', 'pending')); ?>
         <?php $proses_total = count($order->where('status', 'proses')); ?>
         <ul class="nav nav-tabs">
-            @if (auth()->user()->role != 'supplier')
+            {{-- @if (auth()->user()->role != 'supplier') --}}
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.draft.tab', []) ))
             <li class="active"><a href="#tab_1" data-toggle="tab">Draft</a></li>
             @endif
-            <li class="{{ auth()->user()->role == 'supplier' ? 'active' : '' }}"><a href="#tab_2" data-toggle="tab">
-                Pending 
-                @if ($pending_total > 0)
-                <span class="badge bg-red" style="border-radius: 50px;">{{ $pending_total }}</span>
-                @endif
-            </a></li>
-            <li><a href="#tab_3" data-toggle="tab">
-                Proses
-                @if ($proses_total > 0)
-                <span class="badge bg-blue" style="border-radius: 50px;">{{ $proses_total }}</span>
-                @endif
-            </a></li>
+
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.menunggu.tab', []) ))
+            <li>
+                <a href="#tab_menunggu" data-toggle="tab">
+                    Menunggu Persetujuan
+                    @if ($menunggu_total > 0)
+                    <span class="badge bg-red" style="border-radius: 50px;">{{ $menunggu_total }}</span>
+                    @endif
+                </a>
+            </li>
+            @endif
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.pending.tab', []) ))
+            <li class="{{ ( auth()->user()->role == 'supplier' || auth()->user()->role == 'stockpile') ? 'active' : '' }}">
+                <a href="#tab_2" data-toggle="tab">
+                    Pending
+                    @if ($pending_total > 0)
+                    <span class="badge bg-red" style="border-radius: 50px;">{{ $pending_total }}</span>
+                    @endif
+                </a>
+            </li>
+            @endif
+
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.proses.tab', []) ))
+            <li>
+                <a href="#tab_3" data-toggle="tab">
+                    Proses
+                    @if ($proses_total > 0)
+                    <span class="badge bg-blue" style="border-radius: 50px;">{{ $proses_total }}</span>
+                    @endif
+                </a>
+            </li>
+            @endif
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.diterima.tab', []) ))
             <li><a href="#tab_4" data-toggle="tab">Diterima</a></li>
+            @endif
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.dibatalkan.tab', []) ))
             <li><a href="#tab_5" data-toggle="tab">Dibatalkan</a></li>
+            @endif
         </ul>
         <div class="tab-content">
-            @if (auth()->user()->role != 'supplier')
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.draft.tab', []) ))
             <div class="tab-pane active" id="tab_1">
+                @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.draft.tombol_tambah', []) ))
                 <button class="btn btn-flat bg-olive" style="margin-bottom: 15px" data-toggle="modal" data-target="#modal-default">TAMBAH</button>
                 <div class="modal fade" id="modal-default">
                     <div class="modal-dialog">
@@ -79,6 +106,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -105,7 +133,15 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
+                    
+                </table>
+            </div>
+            @endif
+
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.menunggu.tab', []) ))
+            <div class="tab-pane" id="tab_menunggu">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
                         <tr>
                             <th>#</th>
                             <th>Nomor Pesanan</th>
@@ -113,12 +149,29 @@
                             <th>Dibuat Pada</th>
                             <th></th>
                         </tr>
-                    </tfoot>
+                    </thead>
+                    <tbody>
+                        @php
+                        $no = 0;
+                        @endphp
+                        @foreach ($order->where('status', 'menunggu') as $item)
+                        <tr>
+                            <td>{{ ++$no }}</td>
+                            <td>{{ $item->nomor_pesanan }}</td>
+                            <td>{{ $item->supplier->name }}</td>
+                            <td>{{ $item->created_at }}</td>
+                            <td>
+                                <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    
                 </table>
             </div>
             @endif
-
-            <div class="tab-pane {{ auth()->user()->role == 'supplier' ? 'active' : '' }}" id="tab_2">
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.pending.tab', []) ))
+            <div class="tab-pane {{ ( auth()->user()->role == 'supplier' || auth()->user()->role == 'stockpile' ) ? 'active' : '' }}" id="tab_2">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -145,18 +198,12 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Pesanan</th>
-                            <th>Nama Supplier</th>
-                            <th>Dibuat Pada</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
+                    
                 </table>
             </div>
+            @endif
 
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.proses.tab', []) ))
             <div class="tab-pane" id="tab_3">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -184,17 +231,12 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Pesanan</th>
-                            <th>Nama Supplier</th>
-                            <th>Dibuat Pada</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
+                    
                 </table>
             </div>
+            @endif
+
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.diterima.tab', []) ))
             <div class="tab-pane" id="tab_4">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -236,6 +278,9 @@
                     </tfoot>
                 </table>
             </div>
+            @endif
+
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.dibatalkan.tab', []) ))
             <div class="tab-pane" id="tab_5">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
@@ -280,7 +325,7 @@
                     </tfoot>
                 </table>
             </div>
-
+            @endif
         </div>
 
 </section>

@@ -32,6 +32,7 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MENU UTAMA</li>
             <li class="{{ (request()->is('dashboard*')) ? 'active' : '' }}"><a href="{{ route('dashboard') }}"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.master', []) ))
             <li class="{{ (request()->is('master*')) ? 'active' : '' }} treeview menu-open">
                 <a href="#">
                     <i class="fa fa-th"></i> <span>Master</span>
@@ -43,16 +44,51 @@
                     @if (in_array(auth()->user()->role, Config::get('constants.access.menu.master_user', []) ))
                     <li class="{{ (request()->is('master/user*')) ? 'active' : '' }}"><a href="{{ route('master.user') }}"><i class="fa fa-user-secret"></i> Pengguna</a></li>
                     @endif
+                    @if (in_array(auth()->user()->role, Config::get('constants.access.menu.master_satuan', []) ))
                     <li class="{{ (request()->is('master/satuan*')) ? 'active' : '' }}"><a href="{{ route('master.unit') }}"><i class="fa fa-circle"></i> Satuan</a></li>
+                    @endif
+                    @if (in_array(auth()->user()->role, Config::get('constants.access.menu.master_bahan_baku', []) ))
                     <li class="{{ (request()->is('master/bahan-baku*')) ? 'active' : '' }}"><a href="{{ route('master.raw-material') }}"><i class="fa fa-archive"></i> Bahan Baku</a></li>
+                    @endif
                 </ul>
             </li>
+            @endif
+
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.persediaan', []) ))
             <li class="{{ (request()->is('persediaan*')) ? 'active' : '' }}"><a href="{{ route('stock') }}"><i class="fa fa-bars"></i> <span>Persediaan</span></a></li>
             @endif
-            
-            <li class="{{ (request()->is('pemesanan-bahan-baku*')) ? 'active' : '' }}"><a href="{{ route('order-raw-material') }}"><i class="fa fa-file-text"></i> <span>Pemesanan Bahan Baku</span></a></li>
-            
+
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.bahan_baku_masuk', []) ))
+            <li class="{{ (request()->is('transaksi-bahan-baku*')) ? 'active' : '' }}"><a href="{{ route('incoming-raw-material') }}"><i class="fa fa-file-text"></i> <span>Transaksi Bahan Baku </span></a></li>
+            @endif
+
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.access', []) ))
+            <li class="{{ (request()->is('pemesanan-bahan-baku*')) ? 'active' : '' }}"><a href="{{ route('order-raw-material') }}"><i class="fa fa-file-text"></i> <span>Pesanan Bahan Baku</span></a></li>
+            @endif
+
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.produksi', []) ))
+            <li class="{{ (request()->is('produksi*')) ? 'active' : '' }} treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-archive"></i> <span>Produksi</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    @if (in_array(auth()->user()->role, Config::get('constants.access.menu.produksi', []) ))
+                    <li class="{{ (request()->is('produksi/produk')) ? 'active' : '' }}"><a href="{{ route('production.product') }}"><i class="fa fa-cube"></i> Produk</a></li>
+                    @endif
+                    @if (in_array(auth()->user()->role, Config::get('constants.access.menu.produksi', []) ))
+                    <li class="{{ (request()->is('produksi/pekerja*')) ? 'active' : '' }}"><a href="{{ route('production.worker') }}"><i class="fa fa-users"></i> Pekerja</a></li>
+                    @endif
+                    @if (in_array(auth()->user()->role, Config::get('constants.access.menu.produksi', []) ))
+                    <li class="{{ (request()->is('produksi/produksi*')) ? 'active' : '' }}"><a href="{{ route('production') }}"><i class="fa fa-archive"></i> Produksi</a></li>
+                    @endif
+                </ul>
+            </li>
+            {{-- <li class="{{ (request()->is('produksi*')) ? 'active' : '' }}"><a href="{{ route('order-raw-material') }}"><i class="fa fa-archive"></i> <span>Produksi</span></a></li> --}}
+            @endif
+
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.laporan', []) ))
             <li class="treeview menu-open {{ (request()->is('laporan*')) ? 'active' : '' }}">
                 <a href="#">

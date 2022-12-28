@@ -43,4 +43,23 @@ class BahanBaku extends Model
         return $this->hasOne(User::class, 'id', 'di_buat_oleh');
     }
 
+    /**
+     * Get the stokSupplier associated with the BahanBaku
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function stokSupplier(): HasOne
+    {
+        return $this->hasOne(StokSupplier::class, 'id_bahan_baku', 'id');
+    }
+
+    /**
+     * Get the stokPersediaan associated with the BahanBaku
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function stokPersediaan(): HasOne
+    {
+        return $this->hasOne(StokPersediaan::class, 'id_bahan_baku', 'id');
+    }
 }

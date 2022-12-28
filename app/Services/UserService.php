@@ -20,7 +20,6 @@ class UserService {
         $user->name = $request->name;
         $user->username = $request->username;
         $user->password = Hash::make( $request->password );
-        $user->email = $request->email;
         $user->role = $request->role;
 
         return $user->save();
@@ -34,7 +33,6 @@ class UserService {
         {
             $user->password = Hash::make( $request->password );
         }
-        $user->email = $request->email;
         $user->role = $request->role;
 
         return $user->save();
