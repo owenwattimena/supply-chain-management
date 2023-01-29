@@ -2,13 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\AlertFormatter;
 use App\Models\Pekerja;
 use Illuminate\Http\Request;
+use App\Helpers\AlertFormatter;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ProductionWorkerController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (!in_array(Auth::user()->role, config('constants.access.menu.produksi'))) {
+                return abort(404);
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         $data['pekerja'] = Pekerja::all();

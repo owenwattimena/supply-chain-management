@@ -6,6 +6,7 @@ use DateTime;
 use App\Models\Produksi;
 use Illuminate\Http\Request;
 use App\Models\DetailPesanan;
+use App\Models\PengirimanPasir;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,9 @@ class ReportProductionController extends Controller
     {
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
-            if (!in_array(Auth::user()->role, config('constants.access.menu.laporan'))) {
-                return abort(404);
-            }
+            // if (!in_array(Auth::user()->role, config('constants.access.menu.laporan.produksi')) || !(in_array( Auth::user()->role, config('constants.access.menu.laporan.penerimaan_pasir') ) )) {
+            //     return abort(404);
+            // }
             return $next($request);
         });
     }
@@ -57,6 +58,41 @@ class ReportProductionController extends Controller
         $data['from'] = $this->convertPHPToMomentFormat($from);
         $data['to'] = $this->convertPHPToMomentFormat($to);
         $pdf = Pdf::loadView('admin.laporan.unduh', $data);
+        return $pdf->stream();
+    }
+
+    public function sandDelivery(Request $request)
+    {
+        $f_epoch = $request->query('from');
+        $t_epoch = $request->query('to');
+        $from = $request->query('from') ? (new DateTime("@$f_epoch"))->format('Y-m-d H:i:s') : date('Y-m-d', strtotime('today - 29 days')) . ' 00:00:00';
+        $to = $request->query('to') ? (new DateTime("@$t_epoch"))->format('Y-m-d H:i:s') : date('Y-m-d') . ' 23:59:59';
+      
+
+        $data['pengiriman'] = PengirimanPasir::where('status', 'diterima')->whereBetween('created_at', [$from, $to])->get();
+
+        $data['from'] = $this->convertPHPToMomentFormat($from);
+        $data['to'] = $this->convertPHPToMomentFormat($to);
+        // dd($data);
+        return view('admin.laporan.pengiriman-pasir', $data);
+    }
+
+    public function sandDeliveryReport(Request $request)
+    {
+        $f_epoch = $request->query('from');
+        $t_epoch = $request->query('to');
+        $from = $request->query('from') ? (new DateTime("@$f_epoch"))->format('Y-m-d H:i:s') : date('Y-m-d', strtotime('today - 29 days')) . ' 00:00:00';
+        $to = $request->query('to') ? (new DateTime("@$t_epoch"))->format('Y-m-d H:i:s') : date('Y-m-d') . ' 23:59:59';
+        
+        // $data['stock'] = DetailPesanan::with(['rawMaterial', 'order' => function ($query) use ($from, $to) {
+        //     return $query->where('status', 'final')->whereBetween('created_at', [$from, $to]);
+        // }])->get()->where('order', '!=', null)->groupBy('rawMaterial.id');
+        $data['pengiriman'] = PengirimanPasir::where('status', 'diterima')->whereBetween('created_at', [$from, $to])->get();
+        
+        $data['from'] = $this->convertPHPToMomentFormat($from);
+        $data['to'] = $this->convertPHPToMomentFormat($to);
+        $pdf = Pdf::loadView('admin.laporan.unduh-pengiriman-pasir', $data);
+        $pdf->setPaper('A4', 'landscape');
         return $pdf->stream();
     }
 

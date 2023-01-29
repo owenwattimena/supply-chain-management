@@ -57,6 +57,10 @@
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.persediaan', []) ))
             <li class="{{ (request()->is('persediaan*')) ? 'active' : '' }}"><a href="{{ route('stock') }}"><i class="fa fa-bars"></i> <span>Persediaan</span></a></li>
             @endif
+            
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pengiriman_pasir', []) ))
+            <li class="{{ (request()->is('pengiriman-pasir*')) ? 'active' : '' }}"><a href="{{ route('sand-delivery') }}"><i class="fa fa-truck"></i> <span>Pengiriman Pasir</span></a></li>
+            @endif
 
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.bahan_baku_masuk', []) ))
             <li class="{{ (request()->is('transaksi-bahan-baku*')) ? 'active' : '' }}"><a href="{{ route('incoming-raw-material') }}"><i class="fa fa-file-text"></i> <span>Transaksi Bahan Baku </span></a></li>
@@ -64,6 +68,9 @@
 
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.access', []) ))
             <li class="{{ (request()->is('pemesanan-bahan-baku*')) ? 'active' : '' }}"><a href="{{ route('order-raw-material') }}"><i class="fa fa-file-text"></i> <span>Pesanan Bahan Baku</span></a></li>
+            @endif
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.penerimaan_pasir', []) ))
+            <li class="{{ (request()->is('penerimaan-pasir*')) ? 'active' : '' }}"><a href="{{ route('sand-reception') }}"><i class="fa fa-truck"></i> <span>Penerimaan Pasir</span></a></li>
             @endif
 
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.produksi', []) ))
@@ -89,7 +96,7 @@
             {{-- <li class="{{ (request()->is('produksi*')) ? 'active' : '' }}"><a href="{{ route('order-raw-material') }}"><i class="fa fa-archive"></i> <span>Produksi</span></a></li> --}}
             @endif
 
-            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.laporan', []) ))
+            @if ( in_array(auth()->user()->role, Config::get('constants.access.menu.laporan.produksi', [])) || in_array(auth()->user()->role, Config::get('constants.access.menu.laporan.pengiriman_pasir', [])) )
             <li class="treeview menu-open {{ (request()->is('laporan*')) ? 'active' : '' }}">
                 <a href="#">
                     <i class="fa fa-file-excel-o"></i> <span>Laporan</span>
@@ -98,7 +105,12 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    @if ( in_array(auth()->user()->role, Config::get('constants.access.menu.laporan.produksi', [])) )
                     <li class="{{ (request()->is('laporan/produksi*')) ? 'active' : '' }}"><a href="{{ route('report.production') }}"><i class="fa fa-cube"></i> Produksi</a></li>
+                    @endif
+                    @if ( in_array(auth()->user()->role, Config::get('constants.access.menu.laporan.penerimaan_pasir', [])) )
+                    <li class="{{ (request()->is('laporan/pengiriman-pasir*')) ? 'active' : '' }}"><a href="{{ route('report.sand-delivery') }}"><i class="fa fa-truck"></i> Penerimaan Pasir</a></li>
+                    @endif
                 </ul>
             </li>
             @endauth

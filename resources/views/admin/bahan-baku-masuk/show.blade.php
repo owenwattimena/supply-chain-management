@@ -20,7 +20,7 @@
             <h3 class="box-title"> Transaksi bahan baku</h3>
         </div>
         <div class="box-body">
-            @if (auth()->user()->role == 'supplier')
+            @if (auth()->user()->role == 'supplier' || auth()->user()->role == 'supplier_pasir')
             @if ($transaksi->status == 'pending' && $transaksi->tipe == 'masuk')
 
             <button class="btn btn-flat bg-olive" style="margin-bottom: 15px" data-toggle="modal" data-target="#modal-default">TAMBAH</button>
@@ -85,7 +85,7 @@
                 </thead>
                 <tbody>
                     <?php $no = 0; ?>
-                    @if (auth()->user()->role == 'supplier')
+                    @if (auth()->user()->role == 'supplier' || auth()->user()->role == 'supplier_pasir')
 
                     @foreach ($transaksi->items as $key => $item)
                     <tr>

@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\AlertFormatter;
-use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use App\Models\Satuan;
 use Illuminate\Http\Request;
+use App\Helpers\AlertFormatter;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ProductionProductController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (!in_array(Auth::user()->role, config('constants.access.menu.produksi'))) {
+                return abort(404);
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         $data['satuan'] = Satuan::all();

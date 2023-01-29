@@ -6,12 +6,14 @@ return [
     ],
     'access' => [
         'menu' => [
-            'master' => ['developer', 'superadmin', 'admin', 'supplier'],
+            'master' => ['developer', 'superadmin', 'admin', 'supplier', 'supplier_pasir'],
             'master_user' => ['developer', 'superadmin', 'admin'],
             'master_satuan' => ['developer', 'superadmin', 'admin'],
-            'master_bahan_baku' => ['developer', 'superadmin', 'admin', 'supplier'],
-            'persediaan' => ['developer', 'superadmin', 'admin', 'supplier'],
-            'bahan_baku_masuk' => ['supplier'],
+            'master_bahan_baku' => ['developer', 'superadmin', 'admin', 'supplier', 'supplier_pasir'],
+            'persediaan' => ['developer', 'superadmin', 'admin', 'supplier', 'supplier_pasir'],
+            'bahan_baku_masuk' => ['supplier', 'supplier_pasir'],
+            'pengiriman_pasir' => ['supplier_pasir', 'stockpile', 'admin'],
+            // 'penerimaan_pasir' => ['stockpile'],
             'produksi' => ['produksi'],
             'pemesanan_bahan_baku' => [
                 'access' => ['admin', 'superadmin', 'developer', 'supplier', 'stockpile', 'manager'],
@@ -35,7 +37,10 @@ return [
                     'tab' => ['admin', 'superadmin', 'developer', 'supplier', 'stockpile', 'manager'],
                 ],
             ],
-            'laporan' => ['developer', 'superadmin', 'admin', 'manager'],
+            'laporan' => [
+                'produksi' => ['developer', 'superadmin', 'admin', 'manager', 'pt_lamco'],
+                'penerimaan_pasir' => ['developer', 'superadmin', 'admin', 'manager', ]
+            ],
         ]
     ],
     'jenis_kelamin' => [

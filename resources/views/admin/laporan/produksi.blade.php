@@ -66,19 +66,6 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Tanggal Produksi</th>
-                            <th>Jam Mulai</th>
-                            <th>Jam Selesai</th>
-                            <th>Produk</th>
-                            <th>Spesifikasi</th>
-                            <th>Jumlah Produksi</th>
-                            <th>Satuan</th>
-                            {{-- <th>Total</th> --}}
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
 

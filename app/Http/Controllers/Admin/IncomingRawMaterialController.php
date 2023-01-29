@@ -28,17 +28,11 @@ class IncomingRawMaterialController extends Controller
 
     public function index()
     {
-        if (Auth::user()->role != 'supplier') {
-            return abort(404);
-        }
         $data['transaksi'] = TransaksiSupplier::with('user')->where('dibuat_oleh', Auth::user()->id)->get();
         return view('admin.bahan-baku-masuk.index', $data);
     }
     public function create()
     {
-        if (Auth::user()->role != 'supplier') {
-            return abort(404);
-        }
         $transaksi = new TransaksiSupplier;
         $transaksi->dibuat_oleh = Auth::user()->id;
         $transaksi->tipe = 'masuk';
@@ -118,5 +112,17 @@ class IncomingRawMaterialController extends Controller
         });
 
         return redirect()->route('incoming-raw-material');
+    }
+
+    public function delete(Request $request, $id)
+    {
+        try {
+            if(TransaksiSupplier::findOrFail($id)->forceDelete()){
+                return redirect()->back()->with(AlertFormatter::success('Data berhasil dihapus'));
+            }
+            return redirect()->back()->with(AlertFormatter::danger('Data gagal dihapus'));
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->back()->with(AlertFormatter::danger( 'Tidak dapat menghapus data berelasi.' ));
+        }
     }
 }

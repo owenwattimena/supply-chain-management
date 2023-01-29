@@ -11,7 +11,7 @@
         <small> Transaksi bahan baku</small>
     </h1>
     <ol class="breadcrumb">
-        <li><i class="fa fa-bars"></i>  Transaksi bahan baku</li>
+        <li><i class="fa fa-bars"></i> Transaksi bahan baku</li>
     </ol>
 </section>
 <section class="content">
@@ -55,28 +55,25 @@
                                         <td>{{ $item->user->name }}</td>
                                         <td>{{ $item->tipe }}</td>
                                         {{-- <td>{{ $item->status }}</td> --}}
-                                        <td> <a href="{{ route('incoming-raw-material.show', $item->id) }}" class="btn btn-flat bg-green btn-sm"> <i class="fa fa-eye"></i> </a> </td>
+                                        <td>
+                                            <a href="{{ route('incoming-raw-material.show', $item->id) }}" class="btn btn-flat bg-green btn-sm"> <i class="fa fa-eye"></i> </a>
+                                            <form action="{{ route('incoming-raw-material.delete', $item->id) }}" method="post" style="display: inline">
+                                                @csrf
+                                                @method('delete')
+                                                <button onclick="return confirm('Yakin ingin menghapus data?')" class="btn btn-flat bg-red btn-sm" type="submit"> <i class="fa fa-trash"></i> </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                     @endforeach
 
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tanggal</th>
-                                        <th>Dibuat oleh</th>
-                                        <th>Tipe</th>
-                                        {{-- <th>Status</th> --}}
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>
 
                     <div class="tab-pane" id="tab_2">
                         <div class="table-responsive">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="example2" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -101,16 +98,6 @@
                                     @endforeach
 
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tipe</th>
-                                        <th>Tanggal</th>
-                                        <th>Dibuat oleh</th>
-                                        {{-- <th>Status</th> --}}
-                                        {{-- <th>Final</th> --}}
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>

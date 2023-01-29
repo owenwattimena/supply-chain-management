@@ -151,15 +151,6 @@
         </div>
         @endforeach
         </tbody>
-        <tfoot>
-            <tr>
-                <th>#</th>
-                <th>Produk</th>
-                <th>Keterangan</th>
-                <th>Satuan</th>
-                <th></th>
-            </tr>
-        </tfoot>
         </table>
     </div>
     </div>

@@ -3,11 +3,13 @@
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\SandReception;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Admin\ProductionController;
 use App\Http\Controllers\Admin\RawMaterialController;
+use App\Http\Controllers\Admin\SandDeliveryController;
 use App\Http\Controllers\Admin\OrderRawMaterialController;
 use App\Http\Controllers\Admin\ProductionWorkerController;
 use App\Http\Controllers\Admin\ReportProductionController;
@@ -56,10 +58,17 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('persediaan')->group(function () {
         Route::get('/', [StockController::class, 'index'])->name('stock');
     });
+    Route::prefix('pengiriman-pasir')->group(function () {
+        Route::post('/{id}/terima', [SandDeliveryController::class, 'accept'])->name('sand-delivery.accept');
+        Route::get('/', [SandDeliveryController::class, 'index'])->name('sand-delivery');
+        Route::post('/', [SandDeliveryController::class, 'create'])->name('sand-delivery.create');
+        Route::get('/{id}/detail', [SandDeliveryController::class, 'show'])->name('sand-delivery.show');
+    });
     Route::prefix('transaksi-bahan-baku')->group(function () {
         Route::get('/', [IncomingRawMaterialController::class, 'index'])->name('incoming-raw-material');
         Route::post('/tambah', [IncomingRawMaterialController::class, 'create'])->name('incoming-raw-material.create');
         Route::get('/{id}', [IncomingRawMaterialController::class, 'show'])->name('incoming-raw-material.show');
+        Route::delete('/{id}', [IncomingRawMaterialController::class, 'delete'])->name('incoming-raw-material.delete');
         Route::post('/{id}', [IncomingRawMaterialController::class, 'store'])->name('incoming-raw-material.store');
         Route::post('/{id}/final', [IncomingRawMaterialController::class, 'final'])->name('incoming-raw-material.final');
     });
@@ -107,6 +116,8 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('laporan')->group(function () {
         Route::get('/produksi', [ReportProductionController::class, 'index'])->name('report.production');
         Route::get('/produksi/unduh', [ReportProductionController::class, 'unduh'])->name('report.production.unduh');
+        Route::get('/pengiriman-pasir', [ReportProductionController::class, 'sandDelivery'])->name('report.sand-delivery');
+        Route::get('/pengiriman-pasir/unduh', [ReportProductionController::class, 'sandDeliveryReport'])->name('report.sand-delivery.unduh');
     });
 
     Route::get('/', function () {

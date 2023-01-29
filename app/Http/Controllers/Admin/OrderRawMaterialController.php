@@ -14,6 +14,18 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderRawMaterialController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (!in_array(Auth::user()->role, config('constants.access.menu.pemesanan_bahan_baku.access'))) {
+                return abort(404);
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
 

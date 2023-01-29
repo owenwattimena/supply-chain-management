@@ -60,7 +60,7 @@
                                     <span class="help-block">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="produk">Produk</label>
                                     <select class="form-control" id="produk" name="id_produk" required>
                                         @foreach ($produk as $item)
@@ -77,7 +77,7 @@
                                     @error('jumlah')
                                     <span class="help-block">{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left btn-flat" data-dismiss="modal">Batal</button>
@@ -96,9 +96,9 @@
                         <th>Jam Mulai</th>
                         {{-- <th>Tanggal Selesai</th> --}}
                         <th>Jam Selesai</th>
-                        <th>Produk</th>
+                        {{-- <th>Produk</th>
                         <th>Jumlah</th>
-                        <th>Satuan</th>
+                        <th>Satuan</th> --}}
                         <th></th>
                     </tr>
                 </thead>
@@ -114,9 +114,9 @@
                         <td>{{ $item->jam_mulai }}</td>
                         {{-- <td>{{ $item->tanggal_selesai }}</td> --}}
                         <td>{{ $item->jam_selesai }}</td>
-                        <td>{{ $item->produk->nama }}</td>
+                        {{-- <td>{{ $item->produk->nama }}</td>
                         <td>{{ $item->jumlah }}</td>
-                        <td>{{ $item->produk->satuan->satuan }}</td>
+                        <td>{{ $item->produk->satuan->satuan }}</td> --}}
                         <td>
                             <a href="{{ route('production.detail', $item->id) }}" class="btn btn-xs bg-green btn-flat">Lihat</a>
                             <button class="btn btn-xs bg-orange btn-flat" data-toggle="modal" data-target="#modal-{{ $item->id }}">UBAH</button>
@@ -167,7 +167,7 @@
                                             <span class="help-block">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label for="produk">Produk</label>
                                             <select class="form-control" id="produk" name="id_produk" required>
                                                 @foreach ($produk as $val)
@@ -184,7 +184,7 @@
                                             @error('jumlah')
                                             <span class="help-block">{{ $message }}</span>
                                             @enderror
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default pull-left btn-flat" data-dismiss="modal">Batal</button>
@@ -196,20 +196,6 @@
                     </div>
                     @endforeach
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th>Status</th>
-                        <th>Tanggal</th>
-                        <th>Jam Mulai</th>
-                        {{-- <th>Tanggal Selesai</th> --}}
-                        <th>Jam Selesai</th>
-                        <th>Produk</th>
-                        <th>Jumlah</th>
-                        <th>Satuan</th>
-                        <th></th>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>

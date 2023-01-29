@@ -75,8 +75,8 @@ class UserController extends Controller
                 return redirect()->back()->with(AlertFormatter::success('Pengguna berhasil di hapus!'));
             }
             return redirect()->back()->with(AlertFormatter::danger('Pengguna gagal di hapus!'));
-        } catch (\Exception $e) {
-            return redirect()->back()->with(AlertFormatter::danger('Error! ' . $e->getMessage()));
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->back()->with(AlertFormatter::danger( 'Tidak dapat menghapus data berelasi.' ));
         }
     }
 }

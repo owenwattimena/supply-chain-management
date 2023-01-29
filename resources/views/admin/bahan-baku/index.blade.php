@@ -20,7 +20,7 @@
             <h3 class="box-title">Bahan Baku</h3>
         </div>
         <div class="box-body">
-            @if (auth()->user()->role == 'supplier')
+            @if (auth()->user()->role == 'supplier' || auth()->user()->role == 'supplier_pasir')
                 
             <button class="btn btn-flat bg-olive" style="margin-bottom: 15px" data-toggle="modal" data-target="#modal-default">TAMBAH</button>
             <div class="modal fade" id="modal-default">
@@ -77,13 +77,15 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Nomor Bahan Baku</th>
-                        <th>Nama Bahan Baku</th>
+                        <th>Nomor</th>
+                        <th>Bahan Baku</th>
                         <th>Spesifikasi</th>
                         <th>Satuan</th>
                         <th>Harga</th>
+                        @if (auth()->user()->role != 'supplier' && auth()->user()->role != 'supplier_pasir')
                         <th>Supplier</th>
-                        @if (auth()->user()->role == 'supplier')
+                        @endif
+                        @if (auth()->user()->role == 'supplier' || auth()->user()->role == 'supplier_pasir')
                         <th></th>
                         @endif
                     </tr>
@@ -101,10 +103,10 @@
                         <td>{{ $item->satuan->satuan }}</td>
                         <?php $_harga = $item->harga->where('status', true)->first(); ?>
                         <td>{{ $_harga ?'Rp. ' . number_format($_harga->harga_jual, 0, ',', '.') : '' }}</td>
-                        @if (auth()->user()->role != 'supplier')
+                        @if (auth()->user()->role != 'supplier' && auth()->user()->role != 'supplier_pasir')
                         <td>{{ $item->supplier->name }}</td>
                         @endif
-                        @if (auth()->user()->role == 'supplier')
+                        @if (auth()->user()->role == 'supplier' || auth()->user()->role == 'supplier_pasir')
                         <td>
                             <button class="btn btn-xs bg-green btn-flat" data-toggle="modal" data-target="#modal-harga-{{ $item->id }}">HARGA</button>
                             <button class="btn btn-xs bg-orange btn-flat" data-toggle="modal" data-target="#modal-{{ $item->id }}">UBAH</button>
@@ -116,7 +118,7 @@
                         </td>
                         @endif
                     </tr>
-                    @if (auth()->user()->role == 'supplier')
+                    @if (auth()->user()->role == 'supplier' || auth()->user()->role == 'supplier_pasir')
                     <div class="modal fade" id="modal-harga-{{ $item->id }}">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -215,22 +217,6 @@
                     @endif
                     @endforeach
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th>Nomor Bahan Baku</th>
-                        <th>Nama Bahan Baku</th>
-                        <th>Spesifikasi</th>
-                        <th>Satuan</th>
-                        <th>Harga</th>
-                        @if (auth()->user()->role != 'supplier')
-                        <th>Supplier</th>
-                        @endif
-                        @if (auth()->user()->role == 'supplier')
-                        <th></th>
-                        @endif
-                    </tr>
-                </tfoot>
             </table>
 
         </div>

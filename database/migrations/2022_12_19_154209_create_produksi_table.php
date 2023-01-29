@@ -19,8 +19,8 @@ class CreateProduksiTable extends Migration
             $table->date('tanggal_selesai');
             $table->time('jam_mulai');
             $table->time('jam_selesai');
-            $table->unsignedBigInteger('id_produk');
-            $table->bigInteger('jumlah');
+            $table->unsignedBigInteger('id_produk')->nullable();
+            $table->bigInteger('jumlah')->nullable();
             $table->unsignedBigInteger('dibuat_oleh');
             $table->enum('status', ['pending', 'final']);
             $table->timestamps();

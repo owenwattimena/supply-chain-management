@@ -12,6 +12,18 @@ use Illuminate\Support\Facades\Auth;
 
 class RawMaterialController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (!in_array(Auth::user()->role, config('constants.access.menu.master_bahan_baku'))) {
+                return abort(404);
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         if(auth()->user()->role == 'supplier'){
@@ -24,7 +36,7 @@ class RawMaterialController extends Controller
             }])->get();
         }
 
-        $data['satuan'] = Satuan::all();
+        $data['satuan'] = Satuan::orderBy('satuan')->get();
         $data['bahanBaku'] = $bahanBaku;
         return view('admin.bahan-baku.index', $data);
     }

@@ -266,16 +266,6 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Pesanan</th>
-                            <th>Nama Supplier</th>
-                            <th>Dibuat Pada</th>
-                            <th>Diterima Pada</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
             @endif
@@ -312,17 +302,6 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Pesanan</th>
-                            <th>Nama Supplier</th>
-                            <th>Dibuat Pada</th>
-                            <th>Dibatalkan Pada</th>
-                            <th>Dibatalkan Oleh</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
             @endif

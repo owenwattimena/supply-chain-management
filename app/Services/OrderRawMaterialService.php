@@ -150,6 +150,7 @@ class OrderRawMaterialService
                     $ext = pathinfo($path, PATHINFO_EXTENSION);
                     $image_name = self::guidv4() . '.' . $ext;
                     $file->move(public_path('/foto-penerimaan-pesanan'), $image_name);
+                    // $file->move(getcwd() . '/foto-penerimaan-pesanan', $image_name);
                     $image_path = "/foto-penerimaan-pesanan/" . $image_name;
 
                     $buktiFoto = new FotoPenerimaanPesanan;

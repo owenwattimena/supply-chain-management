@@ -16,10 +16,54 @@
 </section>
 <section class="content">
     @if($produksi->status != 'final')
-    <form action="{{ route('production.final', $produksi->id) }}" method="post" style="display: inline; margin-bottom: 15px" class="pull-right">
-        @csrf
-        <button type="submit" class="btn btn-primary btn-flat" onclick="return confirm('Yakin ingin memfinalkan produksi?')">FINAL</button>
-    </form>
+    <div class="text-right margin">
+        <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#final-modal">FINAL</button>
+    </div>
+    <div class="modal fade" id="final-modal">
+        <div class="modal-dialog">
+            <form action="{{ route('production.final', $produksi->id) }}" method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Finalkan Produksi</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-red">Masukan Produk dan Jumlah Produk yang di hasilkan</p>
+                        <div class="form-group">
+                            <label for="produk">Produk</label>
+                            <select class="form-control" id="produk" name="id_produk" required>
+                                @foreach ($produk as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama }} - {{ $item->satuan->satuan }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_produk')
+                            <span class="help-block">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="jumlah_produksi">Jumlah Produksi</label>
+                            <input type="number" class="form-control" id="jumlah_produksi" name="jumlah" value="{{ old('jumlah', '') }}" required placeholder="Jumlah">
+                            @error('jumlah')
+                            <span class="help-block">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default pull-left" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">FINAL</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+    {{-- <form action="{{ route('production.final', $produksi->id) }}" method="post" style="display: inline; margin-bottom: 15px" class="pull-right">
+    @csrf
+    <button type="submit" class="btn btn-primary btn-flat" onclick="return confirm('Yakin ingin memfinalkan produksi?')">FINAL</button>
+    </form> --}}
     @endif
     <div class="row" style="clear: both">
         <div class="col-md-8">
@@ -32,21 +76,22 @@
                     <div class="table-responsive" style="clear: both">
                         <table class="table">
                             <tr>
-                                <th style="width:50%">Tanggal Mulai:</th>
+                                <th style="width:50%">Tanggal:</th>
                                 <td>{{ $produksi->tanggal_mulai }}</td>
                             </tr>
                             <tr>
                                 <th style="width:50%">Jam Mulai:</th>
                                 <td>{{ $produksi->jam_mulai }}</td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <th style="width:50%">Tanggal Selesai:</th>
                                 <td>{{ $produksi->tanggal_selesai }}</td>
-                            </tr>
+                            </tr> --}}
                             <tr>
                                 <th style="width:50%">Jam Selesai:</th>
                                 <td>{{ $produksi->jam_selesai }}</td>
                             </tr>
+                            @if ($produksi->id_produk != null)
                             <tr>
                                 <th style="width:50%">Produk:</th>
                                 <td>{{ $produksi->produk->nama }}</td>
@@ -55,7 +100,7 @@
                                 <th style="width:50%">Jumlah:</th>
                                 <td>{{ $produksi->jumlah }} {{ $produksi->produk->satuan->satuan }}</td>
                             </tr>
-
+                            @endif
                         </table>
                     </div>
                     <hr>
@@ -142,96 +187,96 @@
                                     </form>
                                 </td>
                                 {{-- <div class="modal fade" id="modal-{{ $item->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <form action="{{ route('production.detail.update', [$produksi->id, $item->id]) }}" method="POST">
-                                                @csrf
-                                                @method('put')
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title">Ubah Bahan Baku</h4>
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="{{ route('production.detail.update', [$produksi->id, $item->id]) }}" method="POST">
+                                            @csrf
+                                            @method('put')
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Ubah Bahan Baku</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="bahan_baku">Bahan Baku</label>
+                                                    <select class="form-control" id="bahan_baku" name="id_bahan_baku" required>
+                                                        @foreach ($bahanBaku as $val)
+                                                        <option {{ $val->id == $item->id_bahan_baku ? 'selected' : '' }} value="{{ $val->id }}">{{ $val->nama_bahan_baku }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('bahan_baku')
+                                                    <span class="help-block">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label for="bahan_baku">Bahan Baku</label>
-                                                        <select class="form-control" id="bahan_baku" name="id_bahan_baku" required>
-                                                            @foreach ($bahanBaku as $val)
-                                                            <option {{ $val->id == $item->id_bahan_baku ? 'selected' : '' }} value="{{ $val->id }}">{{ $val->nama_bahan_baku }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('bahan_baku')
-                                                        <span class="help-block">{{ $message }}</span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="jumlah">Jumlah</label>
-                                                        <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ old('jumlah', $item->jumlah) }}" required placeholder="Jumlah">
-                                                        @error('jumlah')
-                                                        <span class="help-block">{{ $message }}</span>
-                                                        @enderror
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label for="jumlah">Jumlah</label>
+                                                    <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ old('jumlah', $item->jumlah) }}" required placeholder="Jumlah">
+                                                    @error('jumlah')
+                                                    <span class="help-block">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default pull-left btn-flat" data-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-primary btn-flat">Simpan</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default pull-left btn-flat" data-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-primary btn-flat">Simpan</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                </div> --}}
-                                @endif
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>#</th>
-                                <th>Nomor Bahan Baku</th>
-                                <th>Nama Bahan Baku</th>
-                                <th>Jumlah</th>
-                                <th>Satuan</th>
-                                @if($produksi->status != 'final')
-                                <th></th>
-                                @endif
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="box box-default">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Kehadiran</h3>
-                </div>
-                <div class="box-body">
-                    <div class="form-group">
+                                </div>
+                </div> --}}
+                @endif
+                </tr>
+                @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Nomor Bahan Baku</th>
+                        <th>Nama Bahan Baku</th>
+                        <th>Jumlah</th>
+                        <th>Satuan</th>
                         @if($produksi->status != 'final')
-                        <form action="{{ route('production.kehadiran', $produksi->id) }}" method="post">
-                            @csrf
-                            @foreach ($pekerja as $item)
-                            <label>
-                                <input type="checkbox" name="kehadiran[]" value=" {{ $item->id }}" class="flat-red" {{ isset($item->kehadiran[0]) ? ($item->kehadiran[0]->status_kehadiran ? 'checked' : '') : ''}}>
-                                {{ $item->nama }}
-                            </label>
-                            @endforeach
-                            <button class="btn btn-sm btn-primary btn-flat btn-block" type="submit" style="margin-top: 15px">SIMPAN</button>
-                        </form>
-                        @else
-                        <ul>
-
-                            @foreach ($produksi->kehadiran as $val)
-                            <li>
-                                {{ $val->pekerja->nama }}
-                            </li>
-                            @endforeach
-                        </ul>
+                        <th></th>
                         @endif
-                    </div>
+                    </tr>
+                </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Kehadiran</h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    @if($produksi->status != 'final')
+                    <form action="{{ route('production.kehadiran', $produksi->id) }}" method="post">
+                        @csrf
+                        @foreach ($pekerja as $item)
+                        <label>
+                            <input type="checkbox" name="kehadiran[]" value=" {{ $item->id }}" class="flat-red" {{ isset($item->kehadiran[0]) ? ($item->kehadiran[0]->status_kehadiran ? 'checked' : '') : ''}}>
+                            {{ $item->nama }}
+                        </label>
+                        @endforeach
+                        <button class="btn btn-sm btn-primary btn-flat btn-block" type="submit" style="margin-top: 15px">SIMPAN</button>
+                    </form>
+                    @else
+                    <ul>
+
+                        @foreach ($produksi->kehadiran as $val)
+                        <li>
+                            {{ $val->pekerja->nama }}
+                        </li>
+                        @endforeach
+                    </ul>
+                    @endif
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 </section>
@@ -260,7 +305,7 @@
         $('#stok').val(stok)
     }
 
-    $(document).ready(function(){
+    $(document).ready(function() {
         selectedStok();
 
         $('#select-bahan-baku').on('change', function() {

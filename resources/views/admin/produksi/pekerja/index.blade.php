@@ -231,18 +231,6 @@
         </div>
         @endforeach
         </tbody>
-        <tfoot>
-            <tr>
-                <th>#</th>
-                <th>NIK</th>
-                <th>Nama</th>
-                <th>Tempat/Tgl Lahir</th>
-                <th>Jenis kelamin</th>
-                <th>Alamat</th>
-                <th>Agama</th>
-                <th></th>
-            </tr>
-        </tfoot>
         </table>
     </div>
     </div>

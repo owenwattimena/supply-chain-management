@@ -55,16 +55,16 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Nomor Bahan Baku</th>
-                        <th>Nama Bahan Baku</th>
-                        <th>Spesefikasi</th>
+                        <th>Nomor</th>
+                        <th>Bahan Baku</th>
+                        <th>Spesifikasi</th>
                         <th>Stok</th>
                         <th>Satuan</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $no = 0; ?>
-                    @if (auth()->user()->role != 'supplier')
+                    @if (auth()->user()->role != 'supplier' && auth()->user()->role != 'supplier_pasir')
 
                     @foreach ($stock as $key => $item)
                     <tr>
@@ -99,16 +99,6 @@
                     @endif
 
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th>Nomor Bahan Baku</th>
-                        <th>Nama Bahan Baku</th>
-                        <th>Spesefikasi</th>
-                        <th>Stok</th>
-                        <th>Satuan</th>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>

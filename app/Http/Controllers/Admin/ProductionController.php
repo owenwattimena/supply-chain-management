@@ -17,9 +17,20 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductionController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (!in_array(Auth::user()->role, config('constants.access.menu.produksi'))) {
+                return abort(404);
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
-        $data['produk'] = Produk::all();
         $data['produksi'] = Produksi::all();
         return view('admin.produksi.produksi.index', $data);
     }
@@ -31,8 +42,8 @@ class ProductionController extends Controller
             'jam_mulai' => 'required',
             // 'tanggal_selesai' => 'required',
             'jam_selesai' => 'required',
-            'id_produk' => 'required',
-            'jumlah' => 'required',
+            // 'id_produk' => 'required',
+            // 'jumlah' => 'required',
         ]);
 
         $produksi = new Produksi;
@@ -40,8 +51,8 @@ class ProductionController extends Controller
         $produksi->jam_mulai = $request->jam_mulai;
         $produksi->tanggal_selesai = $request->tanggal_mulai;
         $produksi->jam_selesai = $request->jam_selesai;
-        $produksi->id_produk = $request->id_produk;
-        $produksi->jumlah = $request->jumlah;
+        // $produksi->id_produk = $request->id_produk;
+        // $produksi->jumlah = $request->jumlah;
         $produksi->dibuat_oleh = Auth::user()->id;
         $produksi->status = 'pending';
 
@@ -94,6 +105,7 @@ class ProductionController extends Controller
     public function show($id)
     {
         $data['bahanBaku'] = BahanBaku::all();
+        $data['produk'] = Produk::all();
         $data['produksi'] = Produksi::with(['detail', 'kehadiran' => function ($query) {
             return $query->with('pekerja');
         }])->findOrFail($id);
@@ -153,6 +165,12 @@ class ProductionController extends Controller
 
     public function final(Request $request, $id)
     {
+        $request->validate([
+            "id_produk" => 'required',
+            "jumlah" => 'required',
+        ]);
+
+        
         DB::beginTransaction();
         try {
 
@@ -183,6 +201,14 @@ class ProductionController extends Controller
             if (count($kehadiran) <= 0) {
                 throw new \Exception("Harap tambahkan data kehadiran", 1);
             }
+
+            $produksi->id_produk = $request->id_produk;
+            $produksi->jumlah   = $request->jumlah;
+            
+            if(!$produksi->save()){
+                throw new \Exception("Gagal menyimpan data produksi", 1);
+            }
+
             DB::commit();
             return redirect()->route('production')->with(AlertFormatter::success('Berhasil memfinalkan produksi.'));
         } catch (\Exception $e) {

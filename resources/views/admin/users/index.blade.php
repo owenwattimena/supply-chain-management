@@ -74,6 +74,7 @@
                                         <option value="admin">Admin</option>
                                         <option value="stockpile">Stockpile</option>
                                         <option value="supplier">Supplier</option>
+                                        <option value="supplier_pasir">Supplier Pasir</option>
                                         <option value="produksi">Produksi</option>
                                         <option value="manager">Manager</option>
                                         {{-- <option value="manager">Manager</option> --}}
@@ -162,6 +163,7 @@
                                                 <option {{ $item->role == 'admin' ? 'selected' : '' }} value="admin">Admin</option>
                                                 <option {{ $item->role == 'stockpile' ? 'selected' : '' }} value="stockpile">Stockpile</option>
                                                 <option {{ $item->role == 'supplier' ? 'selected' : '' }} value="supplier">Supplier</option>
+                                                <option {{ $item->role == 'supplier_pasir' ? 'selected' : '' }} value="supplier_pasir">Supplier Pasir</option>
                                                 <option {{ $item->role == 'produksi' ? 'selected' : '' }} value="produksi">Produksi</option>
                                                 <option {{ $item->role == 'manager' ? 'selected' : '' }} value="manager">Manager</option>
                                                 {{-- <option {{ $item->role == 'manager' ? 'selected' : '' }} value="manager">Manager</option> --}}
@@ -178,15 +180,6 @@
                     </div>
                     @endforeach
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Username</th>
-                        {{-- <th>Email</th> --}}
-                        <th>Role</th>
-                        <th></th>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>
