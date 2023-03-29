@@ -139,6 +139,16 @@ class OrderRawMaterialController extends Controller
         if (!in_array($status, config('constants.order.status')))
             return redirect()->back()->with(AlertFormatter::danger('Coba lagi!'));
 
+        // if($status == 'final'){
+        //     return response()->json(
+        //         [
+        //             'message' => 'Data gagal di simpan.',
+        //             'data' => $request->input()
+        //         ],
+        //         400
+        //     );
+        // }
+
         $result = OrderRawMaterialService::status($id, $status, $request);
         if ( is_bool($result) && $result == true ) {
             switch ($status) {
@@ -151,10 +161,27 @@ class OrderRawMaterialController extends Controller
                 case 'batal':
                     return redirect()->route('order-raw-material')->with(AlertFormatter::success('Pesanan berhasil di batalkan!'));
                     break;
+                case 'final':
+                    return response()->json(
+                        [
+                            'message' => 'Data berhasil di simpan.',
+                        ],
+                        200
+                    );
+                    break;
                 default:
                     return redirect()->route('order-raw-material')->with(AlertFormatter::success('Pesanan berhasil di order!'));
                     break;
             }
+        }
+        if($status == 'final')
+        {
+            return response()->json(
+                [
+                    'message' => 'Data gagal di simpan.' . $result,
+                ],
+                400
+            );
         }
         return redirect()->back()->with(AlertFormatter::danger('Pesanan gagal di order.' . $result));
     }

@@ -67,23 +67,23 @@
                     @if (auth()->user()->role != 'supplier' && auth()->user()->role != 'supplier_pasir')
 
                     @foreach ($stock as $key => $item)
-                    <tr>
+                    {{-- <tr>
                         <td>{{ ++$no }}</td>
                         <td>{{ $item->first()->rawMaterial->nomor_bahan_baku }}</td>
                         <td>{{ $item->first()->rawMaterial->nama_bahan_baku }}</td>
                         <td>{{ $item->first()->rawMaterial->spesifikasi }}</td>
                         <td>{{ $item->first()->rawMaterial->stokPersediaan->stok ?? 0 }}</td>
                         {{-- <td>{{ $item->sum('kuantitas') }}</td> --}}
-                        <td>{{ $item->first()->rawMaterial->satuan->satuan }}</td>
-                    </tr>
-                    {{-- <tr>
+                        {{-- <td>{{ $item->first()->rawMaterial->satuan->satuan }}</td> --}}
+                    {{-- </tr>  --}}
+                    <tr>
                         <td>{{ ++$no }}</td>
                     <td>{{ $item->rawMaterial->nomor_bahan_baku }}</td>
                     <td>{{ $item->rawMaterial->nama_bahan_baku }}</td>
                     <td>{{ $item->rawMaterial->spesifikasi }}</td>
-                    <td>{{ $item->kuantitas }}</td>
+                    <td>{{ $item->stok }}</td>
                     <td>{{ $item->rawMaterial->satuan->satuan }}</td>
-                    </tr> --}}
+                    </tr>
                     @endforeach
                     @else
                     @foreach ($stock as $key => $item)

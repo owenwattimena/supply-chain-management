@@ -107,202 +107,214 @@
                     </div>
                 </div>
                 @endif
-                <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Pesanan</th>
-                            <th>Nama Supplier</th>
-                            <th>Dibuat Pada</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                        $no = 0;
-                        @endphp
-                        @foreach ($order->where('status', 'draft') as $item)
-                        <tr>
-                            <td>{{ ++$no }}</td>
-                            <td>{{ $item->nomor_pesanan }}</td>
-                            <td>{{ $item->supplier->name }}</td>
-                            <td>{{ $item->created_at }}</td>
-                            <td>
-                                <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    
-                </table>
+                <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nomor Pesanan</th>
+                                <th>Nama Supplier</th>
+                                <th>Dibuat Pada</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                            $no = 0;
+                            @endphp
+                            @foreach ($order->where('status', 'draft') as $item)
+                            <tr>
+                                <td>{{ ++$no }}</td>
+                                <td>{{ $item->nomor_pesanan }}</td>
+                                <td>{{ $item->supplier->name }}</td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>
+                                    <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        
+                    </table>
+                </div>
             </div>
             @endif
 
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.menunggu.tab', []) ))
             <div class="tab-pane" id="tab_menunggu">
-                <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Pesanan</th>
-                            <th>Nama Supplier</th>
-                            <th>Dibuat Pada</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                        $no = 0;
-                        @endphp
-                        @foreach ($order->where('status', 'menunggu') as $item)
-                        <tr>
-                            <td>{{ ++$no }}</td>
-                            <td>{{ $item->nomor_pesanan }}</td>
-                            <td>{{ $item->supplier->name }}</td>
-                            <td>{{ $item->created_at }}</td>
-                            <td>
-                                <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    
-                </table>
+                <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nomor Pesanan</th>
+                                <th>Nama Supplier</th>
+                                <th>Dibuat Pada</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                            $no = 0;
+                            @endphp
+                            @foreach ($order->where('status', 'menunggu') as $item)
+                            <tr>
+                                <td>{{ ++$no }}</td>
+                                <td>{{ $item->nomor_pesanan }}</td>
+                                <td>{{ $item->supplier->name }}</td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>
+                                    <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        
+                    </table>
+                </div>
             </div>
             @endif
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.pending.tab', []) ))
             <div class="tab-pane {{ ( auth()->user()->role == 'supplier' || auth()->user()->role == 'stockpile' ) ? 'active' : '' }}" id="tab_2">
-                <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Pesanan</th>
-                            <th>Nama Supplier</th>
-                            <th>Dibuat Pada</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                        $no = 0;
-                        @endphp
-                        @foreach ($order->where('status', 'pending') as $item)
-                        <tr>
-                            <td>{{ ++$no }}</td>
-                            <td>{{ $item->nomor_pesanan }}</td>
-                            <td>{{ $item->supplier->name }}</td>
-                            <td>{{ $item->created_at }}</td>
-                            <td>
-                                <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    
-                </table>
+                <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nomor Pesanan</th>
+                                <th>Nama Supplier</th>
+                                <th>Dibuat Pada</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                            $no = 0;
+                            @endphp
+                            @foreach ($order->where('status', 'pending') as $item)
+                            <tr>
+                                <td>{{ ++$no }}</td>
+                                <td>{{ $item->nomor_pesanan }}</td>
+                                <td>{{ $item->supplier->name }}</td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>
+                                    <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        
+                    </table>
+                </div>
             </div>
             @endif
 
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.proses.tab', []) ))
             <div class="tab-pane" id="tab_3">
-                <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Pesanan</th>
-                            <th>Nama Supplier</th>
-                            <th>Dibuat Pada</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                        $no = 0;
-                        @endphp
-                        @foreach ($order->where('status', 'proses') as $item)
-                        <tr>
-                            <td>{{ ++$no }}</td>
-                            <td>{{ $item->nomor_pesanan }}</td>
-                            <td>{{ $item->supplier->name }}</td>
-                            <td>{{ $item->created_at }}</td>
-                            <td>
-                                <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    
-                </table>
+                <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nomor Pesanan</th>
+                                <th>Nama Supplier</th>
+                                <th>Dibuat Pada</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                            $no = 0;
+                            @endphp
+                            @foreach ($order->where('status', 'proses') as $item)
+                            <tr>
+                                <td>{{ ++$no }}</td>
+                                <td>{{ $item->nomor_pesanan }}</td>
+                                <td>{{ $item->supplier->name }}</td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>
+                                    <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        
+                    </table>
+                </div>
             </div>
             @endif
 
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.diterima.tab', []) ))
             <div class="tab-pane" id="tab_4">
-                <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Pesanan</th>
-                            <th>Nama Supplier</th>
-                            <th>Dibuat Pada</th>
-                            <th>Diterima Pada</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                        $no = 0;
-                        @endphp
-                        @foreach ($order->where('status', 'final') as $item)
-                        <tr>
-                            <td>{{ ++$no }}</td>
-                            <td>{{ $item->nomor_pesanan }}</td>
-                            <td>{{ $item->supplier->name }}</td>
-                            <td>{{ $item->created_at }}</td>
-                            <td>{{ $item->updated_at }}</td>
-                            <td>
-                                <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nomor Pesanan</th>
+                                <th>Nama Supplier</th>
+                                <th>Dibuat Pada</th>
+                                <th>Diterima Pada</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                            $no = 0;
+                            @endphp
+                            @foreach ($order->where('status', 'final') as $item)
+                            <tr>
+                                <td>{{ ++$no }}</td>
+                                <td>{{ $item->nomor_pesanan }}</td>
+                                <td>{{ $item->supplier->name }}</td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->updated_at }}</td>
+                                <td>
+                                    <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
             @endif
 
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pemesanan_bahan_baku.dibatalkan.tab', []) ))
             <div class="tab-pane" id="tab_5">
-                <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Pesanan</th>
-                            <th>Nama Supplier</th>
-                            <th>Dibuat Pada</th>
-                            <th>Dibatalkan Pada</th>
-                            <th>Dibatalkan Oleh</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                        $no = 0;
-                        @endphp
-                        @foreach ($order->where('status', 'batal') as $item)
-                        <tr>
-                            <td>{{ ++$no }}</td>
-                            <td>{{ $item->nomor_pesanan }}</td>
-                            <td>{{ $item->supplier->name }}</td>
-                            <td>{{ $item->created_at }}</td>
-                            <td>{{ $item->updated_at }}</td>
-                            <td>{{ $item->cancelBy->name }}</td>
-                            <td>
-                                <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nomor Pesanan</th>
+                                <th>Nama Supplier</th>
+                                <th>Dibuat Pada</th>
+                                <th>Dibatalkan Pada</th>
+                                <th>Dibatalkan Oleh</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                            $no = 0;
+                            @endphp
+                            @foreach ($order->where('status', 'batal') as $item)
+                            <tr>
+                                <td>{{ ++$no }}</td>
+                                <td>{{ $item->nomor_pesanan }}</td>
+                                <td>{{ $item->supplier->name }}</td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->updated_at }}</td>
+                                <td>{{ $item->cancelBy->name }}</td>
+                                <td>
+                                    <a href="{{ route('order-raw-material.show', $item->id) }}" class="btn btn-xs bg-green btn-flat">DETAIL</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
             @endif
         </div>

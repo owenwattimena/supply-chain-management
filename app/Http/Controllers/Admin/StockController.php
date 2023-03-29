@@ -30,7 +30,10 @@ class StockController extends Controller
                 return $query->orderBy('created_at', 'desc');
             }])->where('di_buat_oleh', auth()->user()->id)->get();
         }else{
-            $data['stock'] = StokPersediaan::with(['rawMaterial'])->get();
+            // $data['stock'] = StokPersediaan::with(['rawMaterial'])->get();
+            $data['stock'] = StokPersediaan::with(['rawMaterial' => function($query){
+                return $query->with('supplier');
+            }])->get()->where('rawMaterial.supplier.role', '!=','supplier_pasir');
             // $data['stock'] = DetailPesanan::with(['rawMaterial','order' => function($query){
             //     return $query->where('status', 'final');
             // }])->get()->where('order', '!=', null)->groupBy('rawMaterial.id');

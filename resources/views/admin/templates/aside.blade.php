@@ -55,7 +55,10 @@
             @endif
 
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.persediaan', []) ))
-            <li class="{{ (request()->is('persediaan*')) ? 'active' : '' }}"><a href="{{ route('stock') }}"><i class="fa fa-bars"></i> <span>Persediaan</span></a></li>
+            <li class="{{ (request()->is('persediaan')) ? 'active' : '' }}"><a href="{{ route('stock') }}"><i class="fa fa-bars"></i> <span>Persediaan</span></a></li>
+            @endif
+            @if (in_array(auth()->user()->role, Config::get('constants.access.menu.persediaan_pasir', []) ))
+            <li class="{{ (request()->is('persediaan-pasir*')) ? 'active' : '' }}"><a href="{{ route('sand-stock') }}"><i class="fa fa-bars"></i> <span>Persediaan Pasir</span></a></li>
             @endif
             
             @if (in_array(auth()->user()->role, Config::get('constants.access.menu.pengiriman_pasir', []) ))

@@ -32,13 +32,41 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            "name"  => "required",
-            "username"  => "required|unique:users,username",
-            "password"  => "required",
-            // "email"     => "email",
-            "role"      => "required"
-        ]);
+
+        if ($request->role == 'supplier') {
+            $request->validate([
+                "name"  => "required",
+                "username"  => "required|unique:users,username",
+                "password"  => "required",
+                // "email"     => "email",
+                "role"      => "required",
+                "alamat"      => "required",
+                "no_hp"      => "required",
+                "email"      => "required",
+                "web"      => "required",
+            ]);
+        } else if ($request->role == 'supplier_pasir') {
+            $request->validate([
+                "name"  => "required",
+                "username"  => "required|unique:users,username",
+                "password"  => "required",
+                // "email"     => "email",
+                "role"      => "required",
+                "nik"      => "required",
+                "no_plat"      => "required",
+                "stnk"      => "required|file",
+                "alamat"      => "required",
+                "no_hp"      => "required",
+            ]);
+        } else {
+            $request->validate([
+                "name"  => "required",
+                "username"  => "required|unique:users,username",
+                "password"  => "required",
+                // "email"     => "email",
+                "role"      => "required"
+            ]);
+        }
 
         try {
             if (UserService::store($request)) {
@@ -51,12 +79,36 @@ class UserController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $request->validate([
-            "name"  => "required",
-            "username"  => "required|unique:users,username,{$id}",
-            // "email"     => "email",
-            "role"      => "required"
-        ]);
+        if ($request->role == 'supplier') {
+            $request->validate([
+                "name"  => "required",
+                "username"  => "required|unique:users,username,{$id}",
+                // "email"     => "email",
+                "role"      => "required",
+                "alamat"      => "required",
+                "no_hp"      => "required",
+                "email"      => "required",
+                "web"      => "required",
+            ]);
+        } else if ($request->role == 'supplier_pasir') {
+            $request->validate([
+                "name"  => "required",
+                "username"  => "required|unique:users,username,{$id}",
+                // "email"     => "email",
+                "role"      => "required",
+                "nik"      => "required",
+                "no_plat"      => "required",
+                "alamat"      => "required",
+                "no_hp"      => "required",
+            ]);
+        } else {
+            $request->validate([
+                "name"  => "required",
+                "username"  => "required|unique:users,username,{$id}",
+                // "email"     => "email",
+                "role"      => "required"
+            ]);
+        }
 
         try {
             if (UserService::update($request, $id)) {
@@ -76,7 +128,7 @@ class UserController extends Controller
             }
             return redirect()->back()->with(AlertFormatter::danger('Pengguna gagal di hapus!'));
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect()->back()->with(AlertFormatter::danger( 'Tidak dapat menghapus data berelasi.' ));
+            return redirect()->back()->with(AlertFormatter::danger('Tidak dapat menghapus data berelasi.'));
         }
     }
 }

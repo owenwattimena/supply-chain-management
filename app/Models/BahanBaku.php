@@ -6,6 +6,7 @@ use App\Models\HargaBahanBaku;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BahanBaku extends Model
@@ -41,6 +42,16 @@ class BahanBaku extends Model
     public function supplier(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'di_buat_oleh');
+    }
+
+    /**
+     * Get all of the suppliers for the BahanBaku
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function suppliers(): HasMany
+    {
+        return $this->hasMany(User::class, 'id', 'di_buat_oleh');
     }
 
     /**

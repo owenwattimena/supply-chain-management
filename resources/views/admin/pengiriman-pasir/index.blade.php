@@ -116,7 +116,7 @@
                             @foreach ($pengiriman->where('status', 'pengiriman')->sortDesc() as $key => $item)
                             <tr>
                                 <td>{{ ++$no }}</td>
-                                @if(auth()->user()->role == 'stockpile')
+                                @if(auth()->user()->role == 'stockpile_pasir')
                                 <td> <a href="{{ route('sand-delivery.show', $item->id) }}" class="btn btn-success btn-flat btn-xs">Detail</a> </td>
                                 @endif
                                 <td>{{ $item->created_at }}</td>

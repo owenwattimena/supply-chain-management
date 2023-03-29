@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Auth;
 
 class SandDeliveryController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (!in_array(Auth::user()->role, config('constants.access.menu.pengiriman_pasir'))) {
+                return abort(404);
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
 

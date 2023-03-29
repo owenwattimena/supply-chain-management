@@ -136,30 +136,41 @@ class OrderRawMaterialService
 
                 $penerimaan = new PenerimaanPesanan();
                 $penerimaan->id_pemesanan_bahan_baku = $id;
-                $penerimaan->tanggal = $request->tanggal;
-                $penerimaan->jam = $request->jam;
+                $penerimaan->tanggal = date("Y-m-d H:i:s");
+                $penerimaan->jam = date("H:i:s");
                 $penerimaan->nomor_kendaraan = $request->nomor_kendaraan;
                 $penerimaan->nama_pengemudi = $request->nama_pengemudi;
 
                 if (!$penerimaan->save()) {
                     throw new Exception("Error pada saat memperbarui stok");
                 }
+                // Skript untuk multi image
+                // foreach ($request->file('foto') as $file) {
+                //     $path = $file->getClientOriginalName();
+                //     $ext = pathinfo($path, PATHINFO_EXTENSION);
+                //     $image_name = self::guidv4() . '.' . $ext;
+                //     $file->move(public_path('/foto-penerimaan-pesanan'), $image_name);
+                //     // $file->move(getcwd() . '/foto-penerimaan-pesanan', $image_name);
+                //     $image_path = "/foto-penerimaan-pesanan/" . $image_name;
 
-                foreach ($request->file('foto') as $file) {
-                    $path = $file->getClientOriginalName();
-                    $ext = pathinfo($path, PATHINFO_EXTENSION);
-                    $image_name = self::guidv4() . '.' . $ext;
-                    $file->move(public_path('/foto-penerimaan-pesanan'), $image_name);
-                    // $file->move(getcwd() . '/foto-penerimaan-pesanan', $image_name);
-                    $image_path = "/foto-penerimaan-pesanan/" . $image_name;
+                //     $buktiFoto = new FotoPenerimaanPesanan;
+                //     $buktiFoto->id_penerimaan_pesanan = $penerimaan->id;
+                //     $buktiFoto->foto = $image_path;
+                //     if (!$buktiFoto->save()) {
+                //         throw new Exception("Error pada saat menyimpan gambar");
+                //     }
+                // }
 
-                    $buktiFoto = new FotoPenerimaanPesanan;
-                    $buktiFoto->id_penerimaan_pesanan = $penerimaan->id;
-                    $buktiFoto->foto = $image_path;
-                    if (!$buktiFoto->save()) {
-                        throw new Exception("Error pada saat menyimpan gambar");
-                    }
+                // script for url image
+                $filename_path = md5(time() . uniqid()) . ".jpg";
+                file_put_contents(public_path('/foto-penerimaan-pesanan') . "/" . $filename_path, file_get_contents($request->image));
+                $buktiFoto = new FotoPenerimaanPesanan;
+                $buktiFoto->id_penerimaan_pesanan = $penerimaan->id;
+                $buktiFoto->foto = $filename_path;
+                if (!$buktiFoto->save()) {
+                    throw new Exception("Error pada saat menyimpan gambar");
                 }
+
                 $trans = TransaksiSupplier::findOrFail($pesanan->id_transaksi_supplier);
                 $trans->status = 'final';
                 $trans->final_at = date('Y-m-d H:i:s');

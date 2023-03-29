@@ -19,7 +19,15 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             // $table->string('email');
             $table->string('password');
-            $table->enum('role', ['developer', 'pt_lamco', 'admin', 'stockpile', 'produksi', 'supplier', 'supplier_pasir', 'manager']);
+            $table->enum('role', ['developer', 'pt_lamco', 'admin', 'stockpile', 'stockpile_pasir', 'produksi', 'supplier', 'supplier_pasir', 'manager']);
+            $table->string('nik')->nullable();
+            $table->string('no_plat')->nullable();
+            $table->string('stnk')->nullable();
+            $table->mediumText('alamat')->nullable();
+            $table->string('no_hp')->nullable();
+            $table->string('email')->nullable();
+            $table->string('web')->nullable();
+
             $table->timestamps();
         });
     }

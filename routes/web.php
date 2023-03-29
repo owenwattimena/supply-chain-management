@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SandReception;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StockController;
+use App\Http\Controllers\Admin\SandStockController;
 use App\Http\Controllers\Admin\ProductionController;
 use App\Http\Controllers\Admin\RawMaterialController;
 use App\Http\Controllers\Admin\SandDeliveryController;
@@ -57,6 +58,9 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::prefix('persediaan')->group(function () {
         Route::get('/', [StockController::class, 'index'])->name('stock');
+    });
+    Route::prefix('persediaan-pasir')->group(function () {
+        Route::get('/', [SandStockController::class, 'index'])->name('sand-stock');
     });
     Route::prefix('pengiriman-pasir')->group(function () {
         Route::post('/{id}/terima', [SandDeliveryController::class, 'accept'])->name('sand-delivery.accept');

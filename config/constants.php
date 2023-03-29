@@ -11,8 +11,9 @@ return [
             'master_satuan' => ['developer', 'superadmin', 'admin'],
             'master_bahan_baku' => ['developer', 'superadmin', 'admin', 'supplier', 'supplier_pasir'],
             'persediaan' => ['developer', 'superadmin', 'admin', 'supplier', 'supplier_pasir'],
+            'persediaan_pasir' => ['developer', 'superadmin', 'admin'],
             'bahan_baku_masuk' => ['supplier', 'supplier_pasir'],
-            'pengiriman_pasir' => ['supplier_pasir', 'stockpile', 'admin'],
+            'pengiriman_pasir' => ['supplier_pasir', 'stockpile_pasir', 'admin'],
             // 'penerimaan_pasir' => ['stockpile'],
             'produksi' => ['produksi'],
             'pemesanan_bahan_baku' => [
